@@ -3,159 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZenDo</title>
+  <title>ZenDo 🧘‍♂️</title>
   <link rel="stylesheet" href="/ZenDo/style.css">
   <link rel="icon" type="image/svg+xml" href="/ZenDo/favicon.svg">
-  <link href="https://fonts.googleapis.com/css?family=Quicksand:700,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar">
-    <div class="navbar-content">
-      <span class="navbar-logo">
-        <svg id="zendo-logo" width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle class="logo-bg" cx="24" cy="24" r="20" fill="#7EE787"/>
-          <path class="logo-f" d="M18 32C18 32 18 16 30 16" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-          <circle class="logo-dot" cx="30" cy="32" r="2.5" fill="#222"/>
-        </svg>
-        <span class="navbar-title">ZenDo</span>
-      </span>
-      <ul class="navbar-links">
-        <li><a href="#home" class="nav-link" id="nav-home"><span class="nav-emoji">🏠</span> Home</a></li>
-        <li><a href="#tasks" class="nav-link" id="nav-tasks"><span class="nav-emoji">📝</span> Tasks</a></li>
-        <li><a href="#roulette" class="nav-link" id="nav-roulette"><span class="nav-emoji">🎲</span> Roulette</a></li>
-        <li><a href="#profile" class="nav-link" id="nav-profile"><span class="nav-emoji">👤</span> Profile</a></li>
-      </ul>
-    </div>
+    <ul>
+      <li><a href="#home" class="nav-link">Home 🏠</a></li>
+      <li><a href="#tasks" class="nav-link">Tasks 📝</a></li>
+      <li><a href="#roulette" class="nav-link">Roulette 🎲</a></li>
+      <li><a href="#rewards" class="nav-link">Rewards ⏳</a></li>
+      <li><a href="#profile" class="nav-link">Profile 👤</a></li>
+    </ul>
   </nav>
   <main>
-    <section class="intro-section" id="home-section">
-      <h2>Feeling overwhelmed by your to-do list?</h2>
-      <p>
-        Drowning in tasks and unsure where to even begin? We've all been there. The constant mental battle of deciding "what's next?" can be exhausting, leaving you stressed and less productive.
-      </p>
-      <p><strong>ZenDo changes everything.</strong></p>
-      <p>
-        Imagine a world where the burden of choice simply disappears. ZenDo is your personal productivity guide, designed to cut through the clutter and select your next task for you. No more agonizing decisions, no more getting lost in a sea of commitments. Just clear, focused action.
-      </p>
-      <button id="get-started-btn" class="get-started-btn">Get Started</button>
+    <section id="home" class="page-section active">
+      <h1>Welcome to ZenDo! 🧘‍♂️✨</h1>
+      <p>ZenDo helps you manage your tasks in a fun, gamified way! Add your tasks, spin the roulette, and earn reward time for your breaks. Boost your productivity and motivation with playful surprises and stats! 🎉</p>
+      <ul>
+        <li>🎯 Collect tasks</li>
+        <li>🎲 Spin the roulette to pick what to do next</li>
+        <li>🏆 Get rewarded for completing tasks</li>
+        <li>📊 Track your progress and stats</li>
+      </ul>
+      <p>Ready to get things done? Head to <b>Tasks 📝</b> to start!</p>
     </section>
-    <section id="tasks-section" class="hidden">
-      <section class="task-input-section">
-        <form id="task-form" autocomplete="off">
-          <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
-          <div class="project-select-row">
-            <select id="task-project">
-              <option value="" disabled selected>Select Project (optional)</option>
-            </select>
-            <button type="button" id="add-project-btn" title="Add new project">+</button>
-          </div>
-          <input type="number" id="task-duration" placeholder="Duration (min)" min="1" step="1" required>
-          <select id="task-hardness" required>
-            <option value="" disabled selected>Hardness</option>
-            <option value="Light Work">Light Work</option>
+    <section id="tasks" class="page-section">
+      <h2>Tasks 📝</h2>
+      <form id="task-form">
+        <label>Task Name* <input type="text" id="task-name" required placeholder="e.g., Write report"></label>
+        <label>Related Project <input type="text" id="task-project" placeholder="e.g., Work"></label>
+        <label>Expected Duration* <input type="number" id="task-duration" min="1" required placeholder="Minutes"></label>
+        <label>How Hard It Is* 
+          <select id="task-difficulty" required>
+            <option value="">Select</option>
+            <option value="Simple">Simple</option>
             <option value="Mundane">Mundane</option>
-            <option value="Deep Focus">Deep Focus</option>
+            <option value="Hard">Hard</option>
             <option value="Brain Teaser">Brain Teaser</option>
           </select>
-          <button type="submit" id="add-task-btn">Add Focus Task!</button>
-        </form>
-        <div id="add-project-modal" class="hidden">
-          <input type="text" id="new-project-input" placeholder="New project name">
-          <button type="button" id="save-project-btn">Save</button>
-          <button type="button" id="cancel-project-btn">Cancel</button>
-        </div>
-      </section>
-      <section class="task-list-section">
-        <ul id="task-list"></ul>
-      </section>
-    </section>
-    <section id="roulette-section" class="hidden">
-      <section class="random-task-section">
-        <div class="task-filters">
-          <select id="filter-project">
-            <option value="">All Projects</option>
-          </select>
-          <input type="number" id="filter-duration-min" placeholder="Min min" min="0" style="width: 80px;">
-          <input type="number" id="filter-duration-max" placeholder="Max min" min="0" style="width: 80px;">
-        </div>
-        <div id="roulette-container">
-          <canvas id="roulette-wheel" width="340" height="340"></canvas>
-          <button id="spin-btn">Spin the Wheel</button>
-          <div id="reward-section">
-            <div id="reward-counter">Reward Time: <span id="reward-minutes">0</span> min</div>
-            <div id="reward-timer-clock-container">
-              <div id="reward-timer-clock">
-                <svg id="reward-timer-svg" width="120" height="120" viewBox="0 0 120 120">
-                  <circle cx="60" cy="60" r="54" stroke="#e0e0e0" stroke-width="12" fill="none"/>
-                  <circle id="reward-timer-progress" cx="60" cy="60" r="54" stroke="#7EE787" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-                  <text id="reward-timer-text" x="60" y="70" text-anchor="middle" font-size="2.1rem" font-family="Quicksand, Arial, sans-serif" fill="#222">0:00</text>
-                </svg>
-              </div>
-              <button id="reward-timer-btn">Start</button>
-            </div>
-            <div id="reward-alarm" class="hidden">⏰ TIME'S UP! ⏰</div>
-            <div id="reward-alarm-overlay" class="hidden">
-              <div class="alarm-overlay-content">
-                <span class="alarm-emoji">⏰</span>
-                <div class="alarm-text">TIME'S UP!<br>Take a deep breath and get back to ZenDo!</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-    <section id="profile-section" class="hidden">
-      <div class="profile-card">
-        <div class="profile-pic-placeholder"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" style="width:90px;height:90px;border-radius:50%;object-fit:cover;"></div>
-        <h2>Michael Grohmann</h2>
-        <div class="profile-personal">
-          <div><strong>Email:</strong> michael@example.com</div>
-          <div><strong>Member since:</strong> Jan 2023</div>
-          <div><strong>Favorite Project:</strong> ZenDo Launch</div>
-        </div>
-        <div class="profile-stats">
-          <div class="profile-stat"><span class="stat-label">Tasks Completed:</span> <span class="stat-value">42</span></div>
-          <div class="profile-stat"><span class="stat-label">Total Focus Time:</span> <span class="stat-value">13h 20m</span></div>
-          <div class="profile-stat"><span class="stat-label">Reward Time Earned:</span> <span class="stat-value">2h 10m</span></div>
-          <div class="profile-stat"><span class="stat-label">Hardest Task:</span> <span class="stat-value">Write documentation</span></div>
-        </div>
-        <div class="profile-charts">
-          <h3>Productivity Trends</h3>
-          <div class="profile-chart-placeholder" style="width:100%;height:120px;background:linear-gradient(90deg,#7EE78733 60%,#5AC8FA33 100%);border-radius:1rem;display:flex;align-items:center;justify-content:center;color:#5AC8FA;font-size:1.2rem;">[Productivity Chart]</div>
-          <h3>Task Hardness Breakdown</h3>
-          <div class="profile-chart-placeholder" style="width:100%;height:80px;background:linear-gradient(90deg,#FFD16633 60%,#FF6B6B33 100%);border-radius:1rem;display:flex;align-items:center;justify-content:center;color:#FF6B6B;font-size:1.2rem;">[Hardness Pie Chart]</div>
-        </div>
-        <div class="profile-settings-placeholder">(Settings and more coming soon!)</div>
+        </label>
+        <button type="submit" id="add-task-btn">Add Task ➕</button>
+      </form>
+      <div id="tasks-list">
+        <!-- Outstanding tasks will appear here -->
       </div>
     </section>
-    <div id="task-modal" class="task-modal hidden">
-      <div class="task-modal-content">
-        <div id="selected-task-details"></div>
-        <div class="selected-task-actions">
-          <button id="done-btn">
-            Done!
-            <svg class="spark" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="2" fill="#fff176"/>
-              <g stroke="#fff176" stroke-width="1.5">
-                <line x1="8" y1="1" x2="8" y2="4"/>
-                <line x1="8" y1="12" x2="8" y2="15"/>
-                <line x1="1" y1="8" x2="4" y2="8"/>
-                <line x1="12" y1="8" x2="15" y2="8"/>
-                <line x1="3.5" y1="3.5" x2="5.5" y2="5.5"/>
-                <line x1="10.5" y1="10.5" x2="12.5" y2="12.5"/>
-                <line x1="3.5" y1="12.5" x2="5.5" y2="10.5"/>
-                <line x1="10.5" y1="5.5" x2="12.5" y2="3.5"/>
-              </g>
-            </svg>
-          </button>
-          <button id="skip-btn">Skip</button>
-        </div>
-        <div id="skip-message" class="hidden"></div>
-        <div id="done-message" class="hidden">Great job! 🎉</div>
-        <button id="close-modal-btn" class="close-modal-btn">×</button>
+    <section id="roulette" class="page-section">
+      <h2>Roulette 🎲</h2>
+      <div id="roulette-container">
+        <!-- SVG roulette wheel will be generated here -->
+        <div id="roulette-wheel"></div>
+        <button id="spin-btn">Spin 🎯</button>
       </div>
-    </div>
+      <div id="no-tasks-message" style="display:none;">No tasks to spin! Add some tasks first. 🚀</div>
+    </section>
+    <section id="rewards" class="page-section">
+      <h2>Rewards ⏳</h2>
+      <div id="reward-time-display">Reward Time: <span id="reward-time">0 min</span></div>
+      <div id="timer-controls">
+        <button id="start-timer-btn">Start Timer ▶️</button>
+        <button id="stop-timer-btn">Stop Timer ⏸️</button>
+        <span id="timer">00:00</span>
+      </div>
+    </section>
+    <section id="profile" class="page-section">
+      <h2>Profile 👤</h2>
+      <div id="profile-pic">
+        <!-- SVG profile picture will be generated here -->
+      </div>
+      <div id="profile-name">ZenDo User</div>
+      <div id="preferences">
+        <h3>Preferences ⚙️</h3>
+        <ul>
+          <li>Notification Sound: <span class="pref-toggle">On/Off</span></li>
+        </ul>
+      </div>
+      <div id="statistics">
+        <h3>Statistics 📊</h3>
+        <div id="stats-tasks-done">Total Tasks Done: <span>0</span></div>
+        <div id="stats-time-spent">Total Time Spent: <span>0 min</span></div>
+        <div id="stats-reward-time">Outstanding Reward Time: <span>0 min</span></div>
+        <div id="stats-difficulty-breakdown">
+          <!-- Pie chart for difficulty breakdown -->
+        </div>
+        <div id="stats-avg-duration">Average Task Duration: <span>0 min</span></div>
+        <div id="stats-frequent-project">Most Frequent Project: <span>-</span></div>
+        <div id="stats-zen-level">Your Zen Level: <span>Beginner 🐣</span></div>
+      </div>
+      <div id="fun-charts">
+        <!-- Fun bar/pie charts will be generated here -->
+      </div>
+    </section>
   </main>
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-content" id="modal-content">
+      <!-- Modal content will be injected here -->
+    </div>
+  </div>
+  <div id="surprise-animations"></div>
   <script src="/ZenDo/script.js"></script>
 </body>
 </html> 
