@@ -20,44 +20,59 @@
     </div>
   </header>
   <main>
-    <section class="task-input-section">
-      <form id="task-form" autocomplete="off">
-        <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
-        <div class="project-select-row">
-          <select id="task-project" required>
-            <option value="" disabled selected>Select Project</option>
+    <section class="intro-section" id="intro-section">
+      <h2>Feeling overwhelmed by your to-do list?</h2>
+      <p>
+        Drowning in tasks and unsure where to even begin? We've all been there. The constant mental battle of deciding "what's next?" can be exhausting, leaving you stressed and less productive.
+      </p>
+      <p><strong>ZenDo changes everything.</strong></p>
+      <p>
+        Imagine a world where the burden of choice simply disappears. ZenDo is your personal productivity guide, designed to cut through the clutter and select your next task for you. No more agonizing decisions, no more getting lost in a sea of commitments. Just clear, focused action.
+      </p>
+      <button id="get-started-btn" class="get-started-btn">Get Started</button>
+    </section>
+    <section id="app-section" class="hidden">
+      <section class="task-input-section">
+        <form id="task-form" autocomplete="off">
+          <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
+          <div class="project-select-row">
+            <select id="task-project" required>
+              <option value="" disabled selected>Select Project</option>
+            </select>
+            <button type="button" id="add-project-btn" title="Add new project">+</button>
+          </div>
+          <input type="text" id="task-duration" placeholder="Duration (e.g., 30 min)" required>
+          <select id="task-hardness" required>
+            <option value="" disabled selected>Hardness</option>
+            <option value="Light Work">Light Work</option>
+            <option value="Mundane">Mundane</option>
+            <option value="Deep Focus">Deep Focus</option>
+            <option value="Brain Teaser">Brain Teaser</option>
           </select>
-          <button type="button" id="add-project-btn" title="Add new project">+</button>
+          <button type="submit" id="add-task-btn">Add Focus Task!</button>
+        </form>
+        <div id="add-project-modal" class="hidden">
+          <input type="text" id="new-project-input" placeholder="New project name">
+          <button type="button" id="save-project-btn">Save</button>
+          <button type="button" id="cancel-project-btn">Cancel</button>
         </div>
-        <input type="text" id="task-duration" placeholder="Duration (e.g., 30 min)" required>
-        <select id="task-hardness" required>
-          <option value="" disabled selected>Hardness</option>
-          <option value="Light Work">Light Work</option>
-          <option value="Mundane">Mundane</option>
-          <option value="Deep Focus">Deep Focus</option>
-          <option value="Brain Teaser">Brain Teaser</option>
-        </select>
-        <button type="submit" id="add-task-btn">Add Focus Task!</button>
-      </form>
-      <div id="add-project-modal" class="hidden">
-        <input type="text" id="new-project-input" placeholder="New project name">
-        <button type="button" id="save-project-btn">Save</button>
-        <button type="button" id="cancel-project-btn">Cancel</button>
-      </div>
+      </section>
+      <section class="task-list-section">
+        <ul id="task-list"></ul>
+      </section>
+      <section class="random-task-section">
+        <div class="task-filters">
+          <select id="filter-project">
+            <option value="">All Projects</option>
+          </select>
+          <input type="number" id="filter-duration-min" placeholder="Min min" min="0" style="width: 80px;">
+          <input type="number" id="filter-duration-max" placeholder="Max min" min="0" style="width: 80px;">
+        </div>
+        <button id="get-task-btn">Tell me what to do</button>
+      </section>
     </section>
-    <section class="task-list-section">
-      <ul id="task-list"></ul>
-    </section>
-    <section class="random-task-section">
-      <div class="task-filters">
-        <select id="filter-project">
-          <option value="">All Projects</option>
-        </select>
-        <input type="number" id="filter-duration-min" placeholder="Min min" min="0" style="width: 80px;">
-        <input type="number" id="filter-duration-max" placeholder="Max min" min="0" style="width: 80px;">
-      </div>
-      <button id="get-task-btn">Tell me what to do</button>
-      <div id="selected-task-container" class="hidden">
+    <div id="task-modal" class="task-modal hidden">
+      <div class="task-modal-content">
         <div id="selected-task-details"></div>
         <div class="selected-task-actions">
           <button id="done-btn">
@@ -80,8 +95,9 @@
         </div>
         <div id="skip-message" class="hidden"></div>
         <div id="done-message" class="hidden">Great job! 🎉</div>
+        <button id="close-modal-btn" class="close-modal-btn">×</button>
       </div>
-    </section>
+    </div>
   </main>
   <script src="script.js"></script>
 </body>

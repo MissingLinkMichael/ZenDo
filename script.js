@@ -27,6 +27,13 @@ const filterProject = document.getElementById('filter-project');
 const filterDurationMin = document.getElementById('filter-duration-min');
 const filterDurationMax = document.getElementById('filter-duration-max');
 
+// Landing page flow
+const introSection = document.getElementById('intro-section');
+const appSection = document.getElementById('app-section');
+const getStartedBtn = document.getElementById('get-started-btn');
+const taskModal = document.getElementById('task-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+
 function updateProjectDropdowns() {
   // Clear and repopulate both project selects
   taskProjectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
@@ -131,11 +138,28 @@ function getFilteredTasks() {
   return filtered;
 }
 
+getStartedBtn.addEventListener('click', () => {
+  introSection.classList.add('hidden');
+  appSection.classList.remove('hidden');
+});
+
+function showTaskModal() {
+  taskModal.classList.remove('hidden');
+}
+function hideTaskModal() {
+  taskModal.classList.add('hidden');
+  selectedTaskDetails.innerHTML = '';
+  skipMessage.classList.add('hidden');
+  doneMessage.classList.add('hidden');
+  selectedTaskIndex = null;
+}
+closeModalBtn.addEventListener('click', hideTaskModal);
+
 getTaskBtn.addEventListener('click', function() {
   const filtered = getFilteredTasks();
   if (filtered.length === 0) {
     selectedTaskDetails.innerHTML = '<span style="color:#e53935">Add some tasks first or adjust your filters!</span>';
-    selectedTaskContainer.classList.remove('hidden');
+    showTaskModal();
     doneBtn.style.display = 'none';
     skipBtn.style.display = 'none';
     skipMessage.classList.add('hidden');
@@ -154,7 +178,6 @@ getTaskBtn.addEventListener('click', function() {
       <span>Hardness: ${task.hardness}</span>
     </div>
   `;
-  selectedTaskContainer.classList.remove('hidden');
   doneBtn.style.display = '';
   skipBtn.style.display = '';
   doneMessage.classList.add('hidden');
@@ -162,6 +185,7 @@ getTaskBtn.addEventListener('click', function() {
   // Animate button
   getTaskBtn.style.animation = 'btnBounce 0.22s';
   setTimeout(() => { getTaskBtn.style.animation = ''; }, 220);
+  showTaskModal();
 });
 
 skipBtn.addEventListener('click', function() {
@@ -185,20 +209,97 @@ skipBtn.addEventListener('click', function() {
   }
   // Hide after a short delay, but keep the task visible
   setTimeout(() => {
-    selectedTaskContainer.classList.add('hidden');
-    selectedTaskDetails.innerHTML = '';
-    skipMessage.classList.add('hidden');
-    selectedTaskIndex = null;
+    hideTaskModal();
   }, 1400);
 });
+
+// Surprise messages and effects for task completion
+const surprises = [
+  { type: 'text', html: 'Great job! 🎉' },
+  { type: 'text', html: 'You crushed it! 💪' },
+  { type: 'text', html: 'Zen mode: ACTIVATED 🧘‍♂️' },
+  { type: 'text', html: 'You did it! 🌟' },
+  { type: 'text', html: 'Productivity unlocked! 🔓' },
+  { type: 'text', html: 'You rock! 🤘' },
+  { type: 'text', html: 'Task obliterated! 💥' },
+  { type: 'text', html: 'On fire! 🔥' },
+  { type: 'text', html: 'Youre unstoppable! 🚀' },
+  { type: 'text', html: 'Victory dance! 💃🕺' },
+  { type: 'text', html: 'Focus master! 🧠' },
+  { type: 'text', html: 'Youre a ZenDo hero! 🦸' },
+  { type: 'text', html: 'Another one bites the dust! 🎶' },
+  { type: 'text', html: 'Youre a productivity ninja! 🥷' },
+  { type: 'text', html: 'Boom! Done! 💣' },
+  { type: 'text', html: 'Youre a legend! 🏆' },
+  { type: 'text', html: 'Confetti time! 🎊', confetti: true },
+  { type: 'text', html: 'Youre a task terminator! 🤖' },
+  { type: 'text', html: 'Youve earned a break! ☕️' },
+  { type: 'text', html: 'Youre a focus wizard! 🧙' },
+  { type: 'text', html: 'Youre a star! ⭐️' },
+  { type: 'text', html: 'Youre a champion! 🥇' },
+  { type: 'text', html: 'Youre a task slayer! ⚔️' },
+  { type: 'text', html: 'Youre a Zen master! 🧘' },
+  { type: 'text', html: 'Youre a productivity beast! 🐯' },
+  { type: 'text', html: 'Youre a focus machine! 🤖' },
+  { type: 'text', html: 'Youre a goal crusher! 🏅' },
+  { type: 'text', html: 'Youre a task conqueror! 🏔️' },
+  { type: 'text', html: 'Youre a ZenDo superstar! 🌠' },
+  { type: 'text', html: 'Youre a productivity guru! 🕉️' },
+];
+
+// Confetti rain effect
+function confettiRain() {
+  // Remove any existing confetti
+  let confetti = document.getElementById('zendo-confetti');
+  if (confetti) confetti.remove();
+  confetti = document.createElement('div');
+  confetti.id = 'zendo-confetti';
+  confetti.style.position = 'fixed';
+  confetti.style.left = '0';
+  confetti.style.top = '0';
+  confetti.style.width = '100vw';
+  confetti.style.height = '100vh';
+  confetti.style.pointerEvents = 'none';
+  confetti.style.zIndex = '9999';
+  document.body.appendChild(confetti);
+  const colors = ['#7EE787', '#5AC8FA', '#fff176', '#FF6B6B', '#43a047', '#FFD166'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.style.position = 'absolute';
+    el.style.width = '16px';
+    el.style.height = '16px';
+    el.style.borderRadius = '4px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = (Math.random() * -20) + 'vh';
+    el.style.opacity = 0.85;
+    el.style.transform = `rotate(${Math.random()*360}deg)`;
+    confetti.appendChild(el);
+    const drift = (Math.random() - 0.5) * 60;
+    const rotateStart = Math.random() * 360;
+    const rotateEnd = rotateStart + 720 + Math.random() * 360;
+    el.animate([
+      { top: el.style.top, left: el.style.left, transform: `rotate(${rotateStart}deg)` },
+      { top: (80 + Math.random() * 20) + 'vh', left: `calc(${el.style.left} + ${drift}px)`, transform: `rotate(${rotateEnd}deg)` }
+    ], {
+      duration: 3000 + Math.random() * 1200,
+      easing: 'linear',
+      fill: 'forwards'
+    });
+  }
+  setTimeout(() => { if (confetti) confetti.remove(); }, 3500);
+}
 
 doneBtn.addEventListener('click', function() {
   if (selectedTaskIndex === null || selectedTaskIndex >= tasks.length) return;
   // Animate button
   doneBtn.style.animation = 'doneShake 0.18s';
   setTimeout(() => { doneBtn.style.animation = ''; }, 180);
-  // Show message
+  // Show random surprise
+  const surprise = surprises[Math.floor(Math.random() * surprises.length)];
+  doneMessage.innerHTML = surprise.html;
   doneMessage.classList.remove('hidden');
+  if (surprise.confetti) confettiRain();
   // Remove task from array and skipCounts
   const task = tasks[selectedTaskIndex];
   skipCounts.delete(task.id);
@@ -206,11 +307,8 @@ doneBtn.addEventListener('click', function() {
   renderTaskList();
   // Hide after a short delay
   setTimeout(() => {
-    selectedTaskContainer.classList.add('hidden');
-    selectedTaskDetails.innerHTML = '';
-    doneMessage.classList.add('hidden');
-    selectedTaskIndex = null;
-  }, 1200);
+    hideTaskModal();
+  }, 1600);
 });
 
 // Optional: Enter key on any input submits form
