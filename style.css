@@ -656,6 +656,47 @@ main {
   100% { color: #FFD166; transform: scale(1.08); }
 }
 
+#reward-timer-clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 0.7rem;
+}
+#reward-timer-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.2rem;
+}
+#reward-timer-svg {
+  display: block;
+}
+#reward-timer-progress {
+  stroke-dasharray: 339.292; /* 2 * PI * 54 */
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s linear;
+}
+#reward-timer-btn {
+  background: linear-gradient(90deg, #FFD166 60%, #5AC8FA 100%);
+  color: #222;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 #ffd16633;
+  transition: background 0.2s, transform 0.1s;
+}
+#reward-timer-btn:hover {
+  background: linear-gradient(90deg, #5AC8FA 60%, #FFD166 100%);
+  transform: scale(1.05);
+}
+#reward-timer-btn:active {
+  animation: btnBounce 0.18s;
+}
+
 @media (max-width: 600px) {
   main {
     max-width: 98vw;

@@ -36,7 +36,7 @@
         <form id="task-form" autocomplete="off">
           <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
           <div class="project-select-row">
-            <select id="task-project" required>
+            <select id="task-project">
               <option value="" disabled selected>Select Project</option>
             </select>
             <button type="button" id="add-project-btn" title="Add new project">+</button>
@@ -73,11 +73,16 @@
           <button id="spin-btn">Spin the Wheel</button>
           <div id="reward-section">
             <div id="reward-counter">Reward Time: <span id="reward-minutes">0</span> min</div>
-            <div id="reward-controls">
-              <button id="reward-start-btn">Start</button>
-              <button id="reward-stop-btn" disabled>Stop</button>
+            <div id="reward-timer-clock-container">
+              <div id="reward-timer-clock">
+                <svg id="reward-timer-svg" width="120" height="120" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="54" stroke="#e0e0e0" stroke-width="12" fill="none"/>
+                  <circle id="reward-timer-progress" cx="60" cy="60" r="54" stroke="#7EE787" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                  <text id="reward-timer-text" x="60" y="70" text-anchor="middle" font-size="2.1rem" font-family="Quicksand, Arial, sans-serif" fill="#222">0:00</text>
+                </svg>
+              </div>
+              <button id="reward-timer-btn">Start</button>
             </div>
-            <div id="reward-timer-display" class="hidden">Time left: <span id="reward-timer">0:00</span></div>
             <div id="reward-alarm" class="hidden">⏰ TIME'S UP! ⏰</div>
           </div>
         </div>
