@@ -162,10 +162,10 @@ taskForm.addEventListener('submit', function(e) {
   const duration = taskDurationInput.value.trim();
   const hardness = taskHardnessInput.value;
   if (!name || !project || !duration || !hardness) return;
-  // Parse duration to minutes for filtering
-  const durationMin = parseDurationToMinutes(duration);
-  const id = `${name}__${project}__${duration}__${hardness}`;
-  tasks.push({ id, name, project, duration, durationMin, hardness });
+  // Parse duration as integer minutes
+  const durationMin = Math.max(1, parseInt(duration, 10));
+  const id = `${name}__${project}__${durationMin}__${hardness}`;
+  tasks.push({ id, name, project, duration: durationMin, durationMin, hardness });
   renderTaskList();
   taskForm.reset();
   taskNameInput.focus();
@@ -400,10 +400,32 @@ const rewardTimerDisplay = document.getElementById('reward-timer-display');
 const rewardTimerSpan = document.getElementById('reward-timer');
 const rewardAlarm = document.getElementById('reward-alarm');
 
+// Update reward counter UI with icon and progress bar
 function updateRewardDisplay() {
   rewardMinutesSpan.textContent = Math.floor(rewardMinutes);
+  // Add icon if not present
+  const counter = document.getElementById('reward-counter');
+  if (!counter.querySelector('.reward-icon')) {
+    const icon = document.createElement('span');
+    icon.className = 'reward-icon';
+    icon.textContent = '🎁';
+    counter.insertBefore(icon, rewardMinutesSpan.parentNode.firstChild);
+  }
+  // Progress bar
+  let bar = document.getElementById('reward-progress-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'reward-progress-bar';
+    bar.innerHTML = '<div id="reward-progress"></div>';
+    counter.parentNode.appendChild(bar);
+  }
+  const progress = document.getElementById('reward-progress');
+  // Assume 30 min is "full" for visual, but can go above
+  let percent = Math.min(rewardMinutes / 30, 1) * 100;
+  progress.style.width = percent + '%';
   if (rewardMinutes > 10) confettiRain();
 }
+
 function updateRewardTimerDisplay() {
   const min = Math.floor(rewardSecondsLeft / 60);
   const sec = rewardSecondsLeft % 60;
@@ -476,3 +498,34 @@ rewardStopBtn.addEventListener('click', stopRewardTimer);
 // Initialize with a default project for demo
 projects = ['General'];
 updateProjectDropdowns(); 
+
+// Only allow positive integers in duration input
+taskDurationInput.addEventListener('input', function() {
+  let val = this.value.replace(/[^\d]/g, '');
+  if (val === '' || parseInt(val, 10) < 1) val = '1';
+  this.value = val;
+});
+
+doneBtn.addEventListener('click', function() {
+  if (selectedTaskIndex === null || selectedTaskIndex >= tasks.length) return;
+  // Animate button
+  doneBtn.style.animation = 'doneShake 0.18s';
+  setTimeout(() => { doneBtn.style.animation = ''; }, 180);
+  // Show random surprise
+  const surprise = surprises[Math.floor(Math.random() * surprises.length)];
+  doneMessage.innerHTML = surprise.html;
+  doneMessage.classList.remove('hidden');
+  if (surprise.confetti) confettiRain();
+  // Add reward time: 10% of duration (in min)
+  const task = tasks[selectedTaskIndex];
+  skipCounts.delete(task.id);
+  const addMin = Math.round(task.durationMin * 0.1 * 10) / 10;
+  rewardMinutes += addMin;
+  updateRewardDisplay();
+  tasks.splice(selectedTaskIndex, 1);
+  renderTaskList();
+  // Hide after a short delay
+  setTimeout(() => {
+    hideTaskModal();
+  }, 1600);
+}); 

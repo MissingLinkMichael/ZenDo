@@ -41,7 +41,7 @@
             </select>
             <button type="button" id="add-project-btn" title="Add new project">+</button>
           </div>
-          <input type="text" id="task-duration" placeholder="Duration (e.g., 30 min)" required>
+          <input type="number" id="task-duration" placeholder="Duration (min)" min="1" step="1" required>
           <select id="task-hardness" required>
             <option value="" disabled selected>Hardness</option>
             <option value="Light Work">Light Work</option>
