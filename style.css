@@ -64,12 +64,14 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   width: 100vw;
-  background: #fff;
+  background: linear-gradient(90deg, #7EE787 60%, #5AC8FA 100%);
   box-shadow: 0 2px 12px 0 #e0f7fa44;
   z-index: 10001;
   height: 64px;
   display: flex;
   align-items: center;
+  border-bottom-left-radius: 1.2rem;
+  border-bottom-right-radius: 1.2rem;
 }
 .navbar-content {
   width: 100%;
@@ -87,7 +89,14 @@ body {
   font-size: 1.3rem;
   font-weight: 700;
   color: #222;
-  user-select: none;
+  background: #fff;
+  border-radius: 1.2rem;
+  padding: 0.3rem 1.1rem 0.3rem 0.7rem;
+  box-shadow: 0 2px 8px 0 #7ee78733;
+  transition: box-shadow 0.2s;
+}
+.navbar-logo:hover {
+  box-shadow: 0 4px 16px 0 #5ac8fa55;
 }
 .navbar-title {
   font-size: 1.3rem;
@@ -107,17 +116,27 @@ body {
   align-items: center;
 }
 .navbar-links a {
-  color: #5AC8FA;
+  color: #222;
   font-weight: 700;
   text-decoration: none;
   font-size: 1.1rem;
   padding: 0.4rem 1.1rem;
-  border-radius: 0.8rem;
-  transition: background 0.18s, color 0.18s;
+  border-radius: 1.2rem;
+  background: rgba(255,255,255,0.7);
+  transition: background 0.18s, color 0.18s, transform 0.13s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px #7ee78711;
 }
-.navbar-links a.active, .navbar-links a:focus, .navbar-links a:hover {
-  background: #7EE787;
-  color: #222;
+.navbar-links a.active, .navbar-links a:focus {
+  background: #fff;
+  color: #5AC8FA;
+  box-shadow: 0 2px 8px #5ac8fa33;
+  transform: scale(1.08);
+}
+.navbar-links a:hover {
+  background: #fff;
+  color: #43a047;
+  transform: scale(1.06);
+  box-shadow: 0 2px 8px #7ee78733;
 }
 
 main {

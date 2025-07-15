@@ -232,6 +232,7 @@ function showSection(section) {
   const navId = 'nav-' + section;
   const nav = document.getElementById(navId);
   if (nav) nav.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 navLinks.forEach(link => {
   link.addEventListener('click', e => {
@@ -240,16 +241,25 @@ navLinks.forEach(link => {
     if (href.startsWith('#')) {
       const section = href.replace('#', '');
       showSection(section);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.location.hash = section;
     }
   });
 });
 document.getElementById('get-started-btn').addEventListener('click', () => {
   showSection('tasks');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.location.hash = 'tasks';
 });
-// Show home by default
-showSection('home');
+// Show correct section on page load or hash change
+function handleHashNav() {
+  const hash = window.location.hash.replace('#', '');
+  if (sections[hash]) {
+    showSection(hash);
+  } else {
+    showSection('home');
+  }
+}
+window.addEventListener('hashchange', handleHashNav);
+handleHashNav();
 
 // --- Fullscreen Alarm Overlay Logic ---
 const rewardAlarmOverlay = document.getElementById('reward-alarm-overlay');
