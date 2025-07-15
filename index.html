@@ -20,10 +20,10 @@
         <span class="navbar-title">ZenDo</span>
       </span>
       <ul class="navbar-links">
-        <li><a href="#home" class="nav-link" id="nav-home">Home</a></li>
-        <li><a href="#tasks" class="nav-link" id="nav-tasks">Tasks</a></li>
-        <li><a href="#roulette" class="nav-link" id="nav-roulette">Roulette</a></li>
-        <li><a href="#profile" class="nav-link" id="nav-profile">Profile</a></li>
+        <li><a href="#home" class="nav-link" id="nav-home"><span class="nav-emoji">🏠</span> Home</a></li>
+        <li><a href="#tasks" class="nav-link" id="nav-tasks"><span class="nav-emoji">📝</span> Tasks</a></li>
+        <li><a href="#roulette" class="nav-link" id="nav-roulette"><span class="nav-emoji">🎲</span> Roulette</a></li>
+        <li><a href="#profile" class="nav-link" id="nav-profile"><span class="nav-emoji">👤</span> Profile</a></li>
       </ul>
     </div>
   </nav>
@@ -106,14 +106,24 @@
     </section>
     <section id="profile-section" class="hidden">
       <div class="profile-card">
-        <div class="profile-pic-placeholder"></div>
-        <h2>Your Profile</h2>
+        <div class="profile-pic-placeholder"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" style="width:90px;height:90px;border-radius:50%;object-fit:cover;"></div>
+        <h2>Michael Grohmann</h2>
+        <div class="profile-personal">
+          <div><strong>Email:</strong> michael@example.com</div>
+          <div><strong>Member since:</strong> Jan 2023</div>
+          <div><strong>Favorite Project:</strong> ZenDo Launch</div>
+        </div>
         <div class="profile-stats">
           <div class="profile-stat"><span class="stat-label">Tasks Completed:</span> <span class="stat-value">42</span></div>
           <div class="profile-stat"><span class="stat-label">Total Focus Time:</span> <span class="stat-value">13h 20m</span></div>
           <div class="profile-stat"><span class="stat-label">Reward Time Earned:</span> <span class="stat-value">2h 10m</span></div>
-          <div class="profile-stat"><span class="stat-label">Favorite Project:</span> <span class="stat-value">ZenDo Launch</span></div>
           <div class="profile-stat"><span class="stat-label">Hardest Task:</span> <span class="stat-value">Write documentation</span></div>
+        </div>
+        <div class="profile-charts">
+          <h3>Productivity Trends</h3>
+          <div class="profile-chart-placeholder" style="width:100%;height:120px;background:linear-gradient(90deg,#7EE78733 60%,#5AC8FA33 100%);border-radius:1rem;display:flex;align-items:center;justify-content:center;color:#5AC8FA;font-size:1.2rem;">[Productivity Chart]</div>
+          <h3>Task Hardness Breakdown</h3>
+          <div class="profile-chart-placeholder" style="width:100%;height:80px;background:linear-gradient(90deg,#FFD16633 60%,#FF6B6B33 100%);border-radius:1rem;display:flex;align-items:center;justify-content:center;color:#FF6B6B;font-size:1.2rem;">[Hardness Pie Chart]</div>
         </div>
         <div class="profile-settings-placeholder">(Settings and more coming soon!)</div>
       </div>
