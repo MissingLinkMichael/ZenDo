@@ -9,18 +9,26 @@
   <link href="https://fonts.googleapis.com/css?family=Quicksand:700,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <div class="logo-container">
-      <svg id="zendo-logo" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle class="logo-bg" cx="24" cy="24" r="20" fill="#7EE787"/>
-        <path class="logo-f" d="M18 32C18 32 18 16 30 16" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-        <circle class="logo-dot" cx="30" cy="32" r="2.5" fill="#222"/>
-      </svg>
-      <span class="app-name">ZenDo</span>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <span class="navbar-logo">
+        <svg id="zendo-logo" width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle class="logo-bg" cx="24" cy="24" r="20" fill="#7EE787"/>
+          <path class="logo-f" d="M18 32C18 32 18 16 30 16" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+          <circle class="logo-dot" cx="30" cy="32" r="2.5" fill="#222"/>
+        </svg>
+        <span class="navbar-title">ZenDo</span>
+      </span>
+      <ul class="navbar-links">
+        <li><a href="#home" class="nav-link" id="nav-home">Home</a></li>
+        <li><a href="#tasks" class="nav-link" id="nav-tasks">Tasks</a></li>
+        <li><a href="#roulette" class="nav-link" id="nav-roulette">Roulette</a></li>
+        <li><a href="#profile" class="nav-link" id="nav-profile">Profile</a></li>
+      </ul>
     </div>
-  </header>
+  </nav>
   <main>
-    <section class="intro-section" id="intro-section">
+    <section class="intro-section" id="home-section">
       <h2>Feeling overwhelmed by your to-do list?</h2>
       <p>
         Drowning in tasks and unsure where to even begin? We've all been there. The constant mental battle of deciding "what's next?" can be exhausting, leaving you stressed and less productive.
@@ -31,13 +39,13 @@
       </p>
       <button id="get-started-btn" class="get-started-btn">Get Started</button>
     </section>
-    <section id="app-section" class="hidden">
+    <section id="tasks-section" class="hidden">
       <section class="task-input-section">
         <form id="task-form" autocomplete="off">
           <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
           <div class="project-select-row">
             <select id="task-project">
-              <option value="" disabled selected>Select Project</option>
+              <option value="" disabled selected>Select Project (optional)</option>
             </select>
             <button type="button" id="add-project-btn" title="Add new project">+</button>
           </div>
@@ -60,6 +68,8 @@
       <section class="task-list-section">
         <ul id="task-list"></ul>
       </section>
+    </section>
+    <section id="roulette-section" class="hidden">
       <section class="random-task-section">
         <div class="task-filters">
           <select id="filter-project">
@@ -84,9 +94,29 @@
               <button id="reward-timer-btn">Start</button>
             </div>
             <div id="reward-alarm" class="hidden">⏰ TIME'S UP! ⏰</div>
+            <div id="reward-alarm-overlay" class="hidden">
+              <div class="alarm-overlay-content">
+                <span class="alarm-emoji">⏰</span>
+                <div class="alarm-text">TIME'S UP!<br>Take a deep breath and get back to ZenDo!</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+    </section>
+    <section id="profile-section" class="hidden">
+      <div class="profile-card">
+        <div class="profile-pic-placeholder"></div>
+        <h2>Your Profile</h2>
+        <div class="profile-stats">
+          <div class="profile-stat"><span class="stat-label">Tasks Completed:</span> <span class="stat-value">42</span></div>
+          <div class="profile-stat"><span class="stat-label">Total Focus Time:</span> <span class="stat-value">13h 20m</span></div>
+          <div class="profile-stat"><span class="stat-label">Reward Time Earned:</span> <span class="stat-value">2h 10m</span></div>
+          <div class="profile-stat"><span class="stat-label">Favorite Project:</span> <span class="stat-value">ZenDo Launch</span></div>
+          <div class="profile-stat"><span class="stat-label">Hardest Task:</span> <span class="stat-value">Write documentation</span></div>
+        </div>
+        <div class="profile-settings-placeholder">(Settings and more coming soon!)</div>
+      </div>
     </section>
     <div id="task-modal" class="task-modal hidden">
       <div class="task-modal-content">

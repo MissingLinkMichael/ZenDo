@@ -215,10 +215,51 @@ function getFilteredTasks() {
   return filtered;
 }
 
-getStartedBtn.addEventListener('click', () => {
-  introSection.classList.add('hidden');
-  appSection.classList.remove('hidden');
+// --- Navigation Logic ---
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = {
+  home: document.getElementById('home-section'),
+  tasks: document.getElementById('tasks-section'),
+  roulette: document.getElementById('roulette-section'),
+  profile: document.getElementById('profile-section'),
+};
+function showSection(section) {
+  Object.values(sections).forEach(sec => sec.classList.remove('active'));
+  Object.keys(sections).forEach(key => {
+    if (key === section) sections[key].classList.add('active');
+  });
+  navLinks.forEach(link => link.classList.remove('active'));
+  const navId = 'nav-' + section;
+  const nav = document.getElementById(navId);
+  if (nav) nav.classList.add('active');
+}
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const href = link.getAttribute('href');
+    if (href.startsWith('#')) {
+      const section = href.replace('#', '');
+      showSection(section);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
 });
+document.getElementById('get-started-btn').addEventListener('click', () => {
+  showSection('tasks');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+// Show home by default
+showSection('home');
+
+// --- Fullscreen Alarm Overlay Logic ---
+const rewardAlarmOverlay = document.getElementById('reward-alarm-overlay');
+function showAlarmOverlay() {
+  rewardAlarmOverlay.classList.remove('hidden');
+}
+function hideAlarmOverlay() {
+  rewardAlarmOverlay.classList.add('hidden');
+}
+rewardAlarmOverlay.addEventListener('click', hideAlarmOverlay);
 
 function showTaskModal() {
   taskModal.classList.remove('hidden');
@@ -503,6 +544,7 @@ function startRewardTimerClock() {
   rewardRunning = true;
   rewardTimerBtn.textContent = 'Stop';
   rewardAlarm.classList.add('hidden');
+  rewardAlarmOverlay.classList.add('hidden');
   rewardTimerTotal = Math.floor(rewardMinutes * 60);
   rewardSecondsLeft = rewardTimerTotal;
   setRewardTimerDisplay(rewardSecondsLeft, rewardTimerTotal);
@@ -518,6 +560,7 @@ function startRewardTimerClock() {
       rewardTimerBtn.textContent = 'Start';
       rewardAlarm.classList.remove('hidden');
       setRewardTimerDisplay(0, rewardTimerTotal);
+      showAlarmOverlay();
       // Optionally: play a sound
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -591,7 +634,8 @@ doneBtn.addEventListener('click', function() {
   // Add reward time: 10% of duration (in min)
   const task = tasks[selectedTaskIndex];
   skipCounts.delete(task.id);
-  const addMin = Math.round(task.durationMin * 0.1 * 10) / 10;
+  let addMin = Math.round(task.durationMin * 0.1 * 10) / 10;
+  if (isNaN(addMin) || addMin < 0) addMin = 0;
   rewardMinutes += addMin;
   updateRewardDisplay();
   setRewardTimerDisplay(Math.floor(rewardMinutes * 60), Math.floor(rewardMinutes * 60));
