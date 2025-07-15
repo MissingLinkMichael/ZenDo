@@ -71,6 +71,15 @@
         <div id="roulette-container">
           <canvas id="roulette-wheel" width="340" height="340"></canvas>
           <button id="spin-btn">Spin the Wheel</button>
+          <div id="reward-section">
+            <div id="reward-counter">Reward Time: <span id="reward-minutes">0</span> min</div>
+            <div id="reward-controls">
+              <button id="reward-start-btn">Start</button>
+              <button id="reward-stop-btn" disabled>Stop</button>
+            </div>
+            <div id="reward-timer-display" class="hidden">Time left: <span id="reward-timer">0:00</span></div>
+            <div id="reward-alarm" class="hidden">⏰ TIME'S UP! ⏰</div>
+          </div>
         </div>
       </section>
     </section>

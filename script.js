@@ -388,26 +388,77 @@ function confettiRain() {
   setTimeout(() => { if (confetti) confetti.remove(); }, 3500);
 }
 
-doneBtn.addEventListener('click', function() {
-  if (selectedTaskIndex === null || selectedTaskIndex >= tasks.length) return;
-  // Animate button
-  doneBtn.style.animation = 'doneShake 0.18s';
-  setTimeout(() => { doneBtn.style.animation = ''; }, 180);
-  // Show random surprise
-  const surprise = surprises[Math.floor(Math.random() * surprises.length)];
-  doneMessage.innerHTML = surprise.html;
-  doneMessage.classList.remove('hidden');
-  if (surprise.confetti) confettiRain();
-  // Remove task from array and skipCounts
-  const task = tasks[selectedTaskIndex];
-  skipCounts.delete(task.id);
-  tasks.splice(selectedTaskIndex, 1);
-  renderTaskList();
-  // Hide after a short delay
-  setTimeout(() => {
-    hideTaskModal();
-  }, 1600);
-});
+// REWARD SYSTEM
+let rewardMinutes = 0;
+let rewardSecondsLeft = 0;
+let rewardTimer = null;
+let rewardRunning = false;
+const rewardMinutesSpan = document.getElementById('reward-minutes');
+const rewardStartBtn = document.getElementById('reward-start-btn');
+const rewardStopBtn = document.getElementById('reward-stop-btn');
+const rewardTimerDisplay = document.getElementById('reward-timer-display');
+const rewardTimerSpan = document.getElementById('reward-timer');
+const rewardAlarm = document.getElementById('reward-alarm');
+
+function updateRewardDisplay() {
+  rewardMinutesSpan.textContent = Math.floor(rewardMinutes);
+  if (rewardMinutes > 10) confettiRain();
+}
+function updateRewardTimerDisplay() {
+  const min = Math.floor(rewardSecondsLeft / 60);
+  const sec = rewardSecondsLeft % 60;
+  rewardTimerSpan.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+}
+function startRewardTimer() {
+  if (rewardRunning || rewardMinutes <= 0) return;
+  rewardRunning = true;
+  rewardStartBtn.disabled = true;
+  rewardStopBtn.disabled = false;
+  rewardTimerDisplay.classList.remove('hidden');
+  rewardAlarm.classList.add('hidden');
+  rewardSecondsLeft = Math.floor(rewardMinutes * 60);
+  updateRewardTimerDisplay();
+  rewardTimer = setInterval(() => {
+    rewardSecondsLeft--;
+    updateRewardTimerDisplay();
+    if (rewardSecondsLeft <= 0) {
+      clearInterval(rewardTimer);
+      rewardTimer = null;
+      rewardRunning = false;
+      rewardMinutes = 0;
+      updateRewardDisplay();
+      rewardStartBtn.disabled = false;
+      rewardStopBtn.disabled = true;
+      rewardAlarm.classList.remove('hidden');
+      rewardTimerDisplay.classList.add('hidden');
+      // Optionally: play a sound
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        o.type = 'triangle';
+        o.frequency.value = 880;
+        o.connect(ctx.destination);
+        o.start();
+        setTimeout(() => { o.stop(); ctx.close(); }, 700);
+      } catch (e) {}
+    }
+  }, 1000);
+}
+function stopRewardTimer() {
+  if (!rewardRunning) return;
+  rewardRunning = false;
+  rewardStartBtn.disabled = false;
+  rewardStopBtn.disabled = true;
+  clearInterval(rewardTimer);
+  rewardTimer = null;
+  rewardMinutes = rewardSecondsLeft / 60;
+  updateRewardDisplay();
+  rewardTimerDisplay.classList.add('hidden');
+  rewardAlarm.classList.add('hidden');
+}
+rewardStartBtn.addEventListener('click', startRewardTimer);
+rewardStopBtn.addEventListener('click', stopRewardTimer);
+
 
 // Optional: Enter key on any input submits form
 ['task-name','task-duration'].forEach(id => {

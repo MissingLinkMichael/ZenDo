@@ -570,6 +570,62 @@ main {
   z-index: 2;
 }
 
+#reward-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+#reward-counter {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #43a047;
+  margin-bottom: 0.3rem;
+}
+#reward-controls {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+#reward-start-btn, #reward-stop-btn {
+  background: linear-gradient(90deg, #FFD166 60%, #5AC8FA 100%);
+  color: #222;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 #ffd16633;
+  transition: background 0.2s, transform 0.1s;
+}
+#reward-start-btn:hover, #reward-stop-btn:hover {
+  background: linear-gradient(90deg, #5AC8FA 60%, #FFD166 100%);
+  transform: scale(1.05);
+}
+#reward-start-btn:active, #reward-stop-btn:active {
+  animation: btnBounce 0.18s;
+}
+#reward-timer-display {
+  font-size: 1.2rem;
+  color: #5AC8FA;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+#reward-alarm {
+  font-size: 2.1rem;
+  color: #e53935;
+  font-weight: 900;
+  margin-top: 1rem;
+  animation: alarmFlash 0.7s infinite alternate;
+  text-align: center;
+}
+@keyframes alarmFlash {
+  0% { color: #e53935; transform: scale(1); }
+  100% { color: #FFD166; transform: scale(1.08); }
+}
+
 @media (max-width: 600px) {
   main {
     max-width: 98vw;
