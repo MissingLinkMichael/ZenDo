@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZenDo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:700,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <svg id="zendo-logo" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle class="logo-bg" cx="24" cy="24" r="20" fill="#7EE787"/>
+        <path class="logo-f" d="M18 32C18 32 18 16 30 16" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+        <circle class="logo-dot" cx="30" cy="32" r="2.5" fill="#222"/>
+      </svg>
+      <span class="app-name">ZenDo</span>
+    </div>
+  </header>
+  <main>
+    <section class="task-input-section">
+      <form id="task-form" autocomplete="off">
+        <input type="text" id="task-name" placeholder="Task Name (e.g., Write blog post intro)" required>
+        <div class="project-select-row">
+          <select id="task-project" required>
+            <option value="" disabled selected>Select Project</option>
+          </select>
+          <button type="button" id="add-project-btn" title="Add new project">+</button>
+        </div>
+        <input type="text" id="task-duration" placeholder="Duration (e.g., 30 min)" required>
+        <select id="task-hardness" required>
+          <option value="" disabled selected>Hardness</option>
+          <option value="Light Work">Light Work</option>
+          <option value="Mundane">Mundane</option>
+          <option value="Deep Focus">Deep Focus</option>
+          <option value="Brain Teaser">Brain Teaser</option>
+        </select>
+        <button type="submit" id="add-task-btn">Add Focus Task!</button>
+      </form>
+      <div id="add-project-modal" class="hidden">
+        <input type="text" id="new-project-input" placeholder="New project name">
+        <button type="button" id="save-project-btn">Save</button>
+        <button type="button" id="cancel-project-btn">Cancel</button>
+      </div>
+    </section>
+    <section class="task-list-section">
+      <ul id="task-list"></ul>
+    </section>
+    <section class="random-task-section">
+      <div class="task-filters">
+        <select id="filter-project">
+          <option value="">All Projects</option>
+        </select>
+        <input type="number" id="filter-duration-min" placeholder="Min min" min="0" style="width: 80px;">
+        <input type="number" id="filter-duration-max" placeholder="Max min" min="0" style="width: 80px;">
+      </div>
+      <button id="get-task-btn">Tell me what to do</button>
+      <div id="selected-task-container" class="hidden">
+        <div id="selected-task-details"></div>
+        <div class="selected-task-actions">
+          <button id="done-btn">
+            Done!
+            <svg class="spark" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="2" fill="#fff176"/>
+              <g stroke="#fff176" stroke-width="1.5">
+                <line x1="8" y1="1" x2="8" y2="4"/>
+                <line x1="8" y1="12" x2="8" y2="15"/>
+                <line x1="1" y1="8" x2="4" y2="8"/>
+                <line x1="12" y1="8" x2="15" y2="8"/>
+                <line x1="3.5" y1="3.5" x2="5.5" y2="5.5"/>
+                <line x1="10.5" y1="10.5" x2="12.5" y2="12.5"/>
+                <line x1="3.5" y1="12.5" x2="5.5" y2="10.5"/>
+                <line x1="10.5" y1="5.5" x2="12.5" y2="3.5"/>
+              </g>
+            </svg>
+          </button>
+          <button id="skip-btn">Skip</button>
+        </div>
+        <div id="skip-message" class="hidden"></div>
+        <div id="done-message" class="hidden">Great job! 🎉</div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html> 
