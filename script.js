@@ -34,6 +34,83 @@ const getStartedBtn = document.getElementById('get-started-btn');
 const taskModal = document.getElementById('task-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 
+// ROULETTE WHEEL LOGIC
+const rouletteWheel = document.getElementById('roulette-wheel');
+const spinBtn = document.getElementById('spin-btn');
+let rouletteAngle = 0;
+let spinning = false;
+
+function drawRouletteWheel(tasks, highlightIndex = null) {
+  const ctx = rouletteWheel.getContext('2d');
+  ctx.clearRect(0, 0, rouletteWheel.width, rouletteWheel.height);
+  const cx = rouletteWheel.width / 2;
+  const cy = rouletteWheel.height / 2;
+  const radius = Math.min(cx, cy) - 10;
+  const n = tasks.length;
+  if (n === 0) {
+    ctx.save();
+    ctx.font = 'bold 1.2rem Quicksand, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#e53935';
+    ctx.fillText('No tasks', cx, cy);
+    ctx.restore();
+    return;
+  }
+  const colors = ['#7EE787', '#5AC8FA', '#fff176', '#FF6B6B', '#FFD166', '#43a047'];
+  for (let i = 0; i < n; i++) {
+    const angleStart = rouletteAngle + (i * 2 * Math.PI / n);
+    const angleEnd = rouletteAngle + ((i + 1) * 2 * Math.PI / n);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, radius, angleStart, angleEnd);
+    ctx.closePath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.globalAlpha = (highlightIndex === i) ? 0.85 : 1;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angleStart + (angleEnd - angleStart) / 2);
+    ctx.textAlign = 'right';
+    ctx.font = 'bold 1rem Quicksand, Arial, sans-serif';
+    ctx.fillStyle = '#222';
+    ctx.save();
+    ctx.shadowColor = '#fff';
+    ctx.shadowBlur = 4;
+    ctx.fillText(tasks[i].name, radius - 12, 6);
+    ctx.restore();
+    ctx.restore();
+  }
+}
+
+function updateRoulette() {
+  const filtered = getFilteredTasks();
+  drawRouletteWheel(filtered);
+}
+
+// Add pointer above the wheel
+const rouletteContainer = document.getElementById('roulette-container');
+if (rouletteContainer && !document.querySelector('.roulette-pointer')) {
+  const pointer = document.createElement('div');
+  pointer.className = 'roulette-pointer';
+  rouletteContainer.insertBefore(pointer, rouletteWheel);
+}
+
+// Redraw wheel on task/filter changes
+['filter-project','filter-duration-min','filter-duration-max'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateRoulette);
+});
+
+// Redraw on task add/remove
+const origRenderTaskList = renderTaskList;
+renderTaskList = function() {
+  origRenderTaskList.apply(this, arguments);
+  updateRoulette();
+};
+
+// Initial draw
+updateRoulette();
+
 function updateProjectDropdowns() {
   // Clear and repopulate both project selects
   taskProjectSelect.innerHTML = '<option value="" disabled selected>Select Project</option>';
@@ -155,37 +232,58 @@ function hideTaskModal() {
 }
 closeModalBtn.addEventListener('click', hideTaskModal);
 
-getTaskBtn.addEventListener('click', function() {
+spinBtn.addEventListener('click', function() {
+  if (spinning) return;
   const filtered = getFilteredTasks();
   if (filtered.length === 0) {
-    selectedTaskDetails.innerHTML = '<span style="color:#e53935">Add some tasks first or adjust your filters!</span>';
-    showTaskModal();
-    doneBtn.style.display = 'none';
-    skipBtn.style.display = 'none';
-    skipMessage.classList.add('hidden');
+    drawRouletteWheel(filtered);
     return;
   }
-  selectedTaskIndex = Math.floor(Math.random() * filtered.length);
-  const task = filtered[selectedTaskIndex];
-  // Find index in main tasks array
-  const mainIdx = tasks.findIndex(t => t.id === task.id);
-  selectedTaskIndex = mainIdx;
-  selectedTaskDetails.innerHTML = `
-    <div><strong>${task.name}</strong></div>
-    <div class="task-meta">
-      <span>Project: ${task.project}</span>
-      <span>Duration: ${task.duration}</span>
-      <span>Hardness: ${task.hardness}</span>
-    </div>
-  `;
-  doneBtn.style.display = '';
-  skipBtn.style.display = '';
-  doneMessage.classList.add('hidden');
-  skipMessage.classList.add('hidden');
-  // Animate button
-  getTaskBtn.style.animation = 'btnBounce 0.22s';
-  setTimeout(() => { getTaskBtn.style.animation = ''; }, 220);
-  showTaskModal();
+  spinning = true;
+  spinBtn.disabled = true;
+  let spins = 8 + Math.floor(Math.random() * 3); // 8-10 full spins
+  const n = filtered.length;
+  const winnerIdx = Math.floor(Math.random() * n);
+  const anglePer = 2 * Math.PI / n;
+  const stopAngle = (3 * Math.PI / 2) - (winnerIdx * anglePer) - anglePer / 2; // pointer at top
+  const startAngle = rouletteAngle % (2 * Math.PI);
+  const totalAngle = (2 * Math.PI) * spins + ((stopAngle - startAngle + 2 * Math.PI) % (2 * Math.PI));
+  const duration = 3200 + Math.random() * 600;
+  const start = performance.now();
+  function animate(now) {
+    const elapsed = now - start;
+    const t = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - t, 3);
+    rouletteAngle = startAngle + totalAngle * ease;
+    drawRouletteWheel(filtered, t > 0.95 ? winnerIdx : null);
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      rouletteAngle = stopAngle;
+      drawRouletteWheel(filtered, winnerIdx);
+      setTimeout(() => {
+        // Show winner in modal
+        selectedTaskIndex = tasks.findIndex(t => t.id === filtered[winnerIdx].id);
+        selectedTaskDetails.innerHTML = `
+          <div><strong>${filtered[winnerIdx].name}</strong></div>
+          <div class="task-meta">
+            <span>Project: ${filtered[winnerIdx].project}</span>
+            <span>Duration: ${filtered[winnerIdx].duration}</span>
+            <span>Hardness: ${filtered[winnerIdx].hardness}</span>
+          </div>
+        `;
+        doneBtn.style.display = '';
+        skipBtn.style.display = '';
+        doneMessage.classList.add('hidden');
+        skipMessage.classList.add('hidden');
+        showTaskModal();
+        spinning = false;
+        spinBtn.disabled = false;
+      }, 600);
+    }
+  }
+  requestAnimationFrame(animate);
 });
 
 skipBtn.addEventListener('click', function() {

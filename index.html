@@ -68,7 +68,10 @@
           <input type="number" id="filter-duration-min" placeholder="Min min" min="0" style="width: 80px;">
           <input type="number" id="filter-duration-max" placeholder="Max min" min="0" style="width: 80px;">
         </div>
-        <button id="get-task-btn">Tell me what to do</button>
+        <div id="roulette-container">
+          <canvas id="roulette-wheel" width="340" height="340"></canvas>
+          <button id="spin-btn">Spin the Wheel</button>
+        </div>
       </section>
     </section>
     <div id="task-modal" class="task-modal hidden">

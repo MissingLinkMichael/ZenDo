@@ -521,6 +521,55 @@ main {
   transform: scale(1.2);
 }
 
+#roulette-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0 1.5rem 0;
+  position: relative;
+}
+#roulette-wheel {
+  display: block;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 24px 0 #5ac8fa33;
+  border: 6px solid #7EE787;
+}
+#spin-btn {
+  margin-top: 1.2rem;
+  background: linear-gradient(90deg, #7EE787 60%, #5AC8FA 100%);
+  color: #222;
+  font-weight: 700;
+  border: none;
+  border-radius: 1.2rem;
+  padding: 1.1rem 2.2rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px 0 #5ac8fa33;
+  transition: background 0.2s, transform 0.1s;
+  display: inline-block;
+}
+#spin-btn:hover {
+  background: linear-gradient(90deg, #5AC8FA 60%, #7EE787 100%);
+  transform: scale(1.06);
+}
+#spin-btn:active {
+  animation: btnBounce 0.22s;
+}
+.roulette-pointer {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 28px solid #e53935;
+  z-index: 2;
+}
+
 @media (max-width: 600px) {
   main {
     max-width: 98vw;
