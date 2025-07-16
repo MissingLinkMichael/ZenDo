@@ -109,14 +109,14 @@ function renderRoulette() {
     const path = document.createElementNS(svgNS, 'path');
     const d = `M${r},${r} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
     path.setAttribute('d', d);
-    path.setAttribute('fill', '#fff');
-    path.setAttribute('stroke', '#fff');
+    path.setAttribute('fill', '#F0C5E1');
+    path.setAttribute('stroke', '#3352F9');
     path.setAttribute('stroke-width', '4');
     svg.appendChild(path);
     // Add emoji label
     const midAngle = angle + Math.PI / n;
     const lx = r + (r * 0.65) * Math.cos(midAngle);
-    const ly = r + (r * 0.65) * Math.sin(midAngle) + 6;
+    const ly = r + (r * 0.65) * Math.sin(midAngle) - 8;
     const text = document.createElementNS(svgNS, 'text');
     text.setAttribute('x', lx);
     text.setAttribute('y', ly);
@@ -125,12 +125,22 @@ function renderRoulette() {
     text.setAttribute('dominant-baseline', 'middle');
     text.textContent = ['📝','💡','🔥','🎯','⭐','🎵','🧩','🧠','🧹','📚','🛠️','🎨','🧘','🚀','🍀','🌟','🎉','🏆','💪','✨'][i % 20];
     svg.appendChild(text);
+    // Add task name (centered, blue, below emoji)
+    const nameText = document.createElementNS(svgNS, 'text');
+    nameText.setAttribute('x', lx);
+    nameText.setAttribute('y', ly + 22);
+    nameText.setAttribute('text-anchor', 'middle');
+    nameText.setAttribute('font-size', '13');
+    nameText.setAttribute('fill', '#3352F9');
+    nameText.setAttribute('font-weight', 'bold');
+    nameText.textContent = tasks[i].name.length > 16 ? tasks[i].name.slice(0, 14) + '…' : tasks[i].name;
+    svg.appendChild(nameText);
     angle += 2 * Math.PI / n;
   }
   // Draw pointer (fixed, not rotating)
   const pointer = document.createElementNS(svgNS, 'polygon');
   pointer.setAttribute('points', `${r-12},10 ${r+12},10 ${r},38`);
-  pointer.setAttribute('fill', '#2176ff');
+  pointer.setAttribute('fill', '#3352F9');
   pointer.setAttribute('style', 'z-index:2;');
   svg.appendChild(pointer);
   wheel.appendChild(svg);
@@ -271,6 +281,7 @@ function showTextBurst(text) {
 // Add keyframes for fadePop and popText in CSS if needed
 
 // --- Task Completion ---
+let completedCount = 0;
 function completeTask(task) {
   // Remove from outstanding
   tasks = tasks.filter(t => t.id !== task.id);
@@ -289,8 +300,48 @@ function completeTask(task) {
   renderRoulette();
   renderRewardTime();
   renderStats();
-  triggerSurprise();
-  if (rewardTime > 10) confettiRain();
+  completedCount++;
+  if (completedCount % 5 === 0) {
+    confettiRain();
+    showTextBurst(randomCheekyText(true));
+  } else {
+    showTextBurst(randomCheekyText(false));
+  }
+}
+const cheekyTexts = [
+  'Good job! 😎',
+  'Well done, ZenMaster! 🧘‍♂️',
+  'You crushed it! 💪',
+  'Task obliterated! 🚀',
+  'You rock! 🤘',
+  'Another one bites the dust! 🎶',
+  'You did it! 🎉',
+  'On fire! 🔥',
+  'That was easy! 😏',
+  'You make it look easy! 😁',
+  'Legendary! 🏆',
+  'You’re unstoppable! 🦸',
+  'Keep it up! ✨',
+  'You’re a productivity ninja! 🥷',
+  'Boom! 💥',
+  'Mission accomplished! 🎯',
+  'You’re a star! ⭐',
+  'Victory! 🏅',
+  'You’re on a roll! 🥳',
+  'Task? What task? 😏'
+];
+function randomCheekyText(isConfetti) {
+  if (isConfetti) {
+    const confettiTexts = [
+      'Confetti time! 🎊',
+      'Milestone! 🎉',
+      '5 tasks done! 🖐️',
+      'You’re on fire! 🔥🔥',
+      'Productivity legend! 🏆'
+    ];
+    return confettiTexts[Math.floor(Math.random() * confettiTexts.length)];
+  }
+  return cheekyTexts[Math.floor(Math.random() * cheekyTexts.length)];
 }
 
 // --- Maybe Later Logic ---

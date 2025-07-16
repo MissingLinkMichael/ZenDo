@@ -30,13 +30,14 @@ body::before, body::after {
   position: fixed;
   top: 0; left: 0; right: 0;
   background: #fff;
-  box-shadow: 0 4px 24px rgba(33, 118, 255, 0.10);
+  box-shadow: 0 6px 24px rgba(51, 82, 249, 0.10);
   z-index: 20;
-  padding: 0.8em 0;
-  border-radius: 0 0 24px 24px;
-  min-height: 70px;
+  padding: 1.2em 0 1.2em 0;
+  border-radius: 0 0 32px 32px;
+  min-height: 80px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .navbar ul {
   display: flex;
@@ -48,23 +49,25 @@ body::before, body::after {
   width: 100%;
 }
 .navbar .nav-link {
-  color: #2176ff;
+  color: #3352F9;
   font-weight: bold;
-  font-size: 1.35em;
+  font-size: 1.4em;
   text-decoration: none;
   transition: color 0.2s, transform 0.2s, background 0.2s;
-  padding: 0.7em 1.5em;
-  border-radius: 16px;
-  letter-spacing: 0.03em;
+  padding: 0.8em 2em;
+  border-radius: 18px;
+  letter-spacing: 0.04em;
   background: transparent;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.6em;
+  box-shadow: 0 2px 8px rgba(51, 82, 249, 0.07);
 }
 .navbar .nav-link:hover {
   color: #fff;
-  background: #2176ff;
+  background: #3352F9;
   transform: scale(1.10) rotate(-2deg);
+  box-shadow: 0 4px 16px rgba(51, 82, 249, 0.13);
 }
 
 main {
@@ -76,10 +79,10 @@ main {
 }
 .page-section {
   display: none;
-  background: #ff5fa2;
+  background: #F0C5E1;
   border-radius: 18px;
   padding: 2.5em 2em;
-  box-shadow: 0 4px 24px rgba(255, 95, 162, 0.13);
+  box-shadow: 0 4px 24px rgba(240, 197, 225, 0.13);
   margin-bottom: 2em;
   color: #fff;
   position: relative;
@@ -92,6 +95,9 @@ main {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: none; }
+}
+.page-section h1, .page-section h2, .page-section h3, .page-section label, .page-section p, .page-section ul, .page-section li {
+  color: #fff !important;
 }
 
 h1, h2, h3 {
@@ -181,13 +187,13 @@ h1, h2, h3 {
   position: relative;
   background: #fff;
   border-radius: 50%;
-  box-shadow: 0 4px 24px rgba(33, 118, 255, 0.10);
+  box-shadow: 0 4px 24px rgba(51, 82, 249, 0.10);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 #spin-btn {
-  background: #ff5fa2;
+  background: #3352F9;
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -195,12 +201,12 @@ h1, h2, h3 {
   font-size: 1.2em;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 95, 162, 0.13);
+  box-shadow: 0 2px 8px rgba(51, 82, 249, 0.13);
   transition: background 0.2s, transform 0.2s;
 }
 #spin-btn:hover {
-  background: #2176ff;
-  color: #fff;
+  background: #F0C5E1;
+  color: #3352F9;
   transform: scale(1.08) rotate(-2deg);
 }
 #no-tasks-message {
@@ -240,7 +246,7 @@ h1, h2, h3 {
 /* Rewards */
 #reward-time-display {
   font-size: 1.3em;
-  color: #2176ff;
+  color: #3352F9;
   margin-bottom: 1em;
   text-align: center;
 }
@@ -253,11 +259,11 @@ h1, h2, h3 {
 }
 #timer {
   font-size: 1.2em;
-  color: #ff5fa2;
+  color: #F0C5E1;
   font-weight: bold;
 }
 #start-timer-btn, #stop-timer-btn {
-  background: #2176ff;
+  background: #3352F9;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -268,8 +274,8 @@ h1, h2, h3 {
   transition: background 0.2s, transform 0.2s;
 }
 #start-timer-btn:hover, #stop-timer-btn:hover {
-  background: #ff5fa2;
-  color: #fff;
+  background: #F0C5E1;
+  color: #3352F9;
   transform: scale(1.07) rotate(2deg);
 }
 
@@ -361,10 +367,17 @@ h1, h2, h3 {
   100% { transform: translateY(100vh) scale(0.7) rotate(360deg); opacity: 0; }
 }
 
-/* Roulette SVG slice separation (handled in JS, but ensure white lines are visible) */
+/* Roulette SVG slice separation (use blue for separation) */
 #roulette-wheel svg path {
-  stroke: #fff;
+  stroke: #3352F9;
   stroke-width: 4;
+}
+#roulette-wheel svg text {
+  fill: #3352F9;
+  font-weight: bold;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 1.5px;
 }
 
 /* Pointer always on top */
@@ -382,9 +395,9 @@ h1, h2, h3 {
 .timer-alarm {
   animation: alarm-shake 1s 2;
   color: #fff !important;
-  background: #ff5fa2 !important;
+  background: #F0C5E1 !important;
   border-radius: 8px;
-  box-shadow: 0 0 16px #ff5fa2;
+  box-shadow: 0 0 16px #F0C5E1;
 }
 
 /* Responsive */
