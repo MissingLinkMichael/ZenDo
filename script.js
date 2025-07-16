@@ -83,7 +83,6 @@ function renderRoulette() {
   noTasksMsg.style.display = 'none';
   // SVG roulette wheel
   const n = tasks.length;
-  const colors = ['#2176ff', '#ff5fa2', '#ffe3f6', '#f0f4ff'];
   const svgNS = 'http://www.w3.org/2000/svg';
   const size = 240;
   const r = size/2;
@@ -91,6 +90,13 @@ function renderRoulette() {
   svg.setAttribute('width', size);
   svg.setAttribute('height', size);
   svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  // White background circle
+  const bgCircle = document.createElementNS(svgNS, 'circle');
+  bgCircle.setAttribute('cx', r);
+  bgCircle.setAttribute('cy', r);
+  bgCircle.setAttribute('r', r);
+  bgCircle.setAttribute('fill', '#fff');
+  svg.appendChild(bgCircle);
   let angle = 0;
   for (let i = 0; i < n; i++) {
     const theta1 = angle;
@@ -103,9 +109,9 @@ function renderRoulette() {
     const path = document.createElementNS(svgNS, 'path');
     const d = `M${r},${r} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
     path.setAttribute('d', d);
-    path.setAttribute('fill', colors[i % colors.length]);
+    path.setAttribute('fill', '#fff');
     path.setAttribute('stroke', '#fff');
-    path.setAttribute('stroke-width', '2');
+    path.setAttribute('stroke-width', '4');
     svg.appendChild(path);
     // Add emoji label
     const midAngle = angle + Math.PI / n;
@@ -121,10 +127,11 @@ function renderRoulette() {
     svg.appendChild(text);
     angle += 2 * Math.PI / n;
   }
-  // Draw pointer
+  // Draw pointer (fixed, not rotating)
   const pointer = document.createElementNS(svgNS, 'polygon');
   pointer.setAttribute('points', `${r-12},10 ${r+12},10 ${r},38`);
   pointer.setAttribute('fill', '#2176ff');
+  pointer.setAttribute('style', 'z-index:2;');
   svg.appendChild(pointer);
   wheel.appendChild(svg);
 }
@@ -140,6 +147,7 @@ function spinRoulette() {
   const anglePer = 360 / n;
   const spinRounds = 5 + Math.floor(Math.random()*2); // 5-6 rounds
   const finalAngle = 360 * spinRounds + (360 - selected * anglePer - anglePer/2);
+  // Only rotate the wheel, not the pointer
   wheel.style.transition = 'none';
   wheel.style.transform = 'rotate(0deg)';
   setTimeout(() => {
@@ -270,8 +278,8 @@ function completeTask(task) {
   // Add to completed
   completedTasks.push({ ...task, completedAt: Date.now() });
   saveData('zendo_completed', completedTasks);
-  // Add reward time
-  const addTime = Math.ceil(task.duration * 0.1);
+  // Add reward time (10% of duration, rounded up, minimum 1)
+  const addTime = Math.max(1, Math.ceil(task.duration * 0.1));
   rewardTime += addTime;
   saveData('zendo_reward_time', rewardTime);
   // Reset maybe later count
@@ -336,11 +344,11 @@ function startTimer() {
         renderRewardTime();
       }
     } else {
-      stopTimer();
+      stopTimer(true);
     }
   }, 1000);
 }
-function stopTimer() {
+function stopTimer(alarm) {
   if (!timerRunning) return;
   timerRunning = false;
   clearInterval(timer);
@@ -348,6 +356,12 @@ function stopTimer() {
   rewardTime = Math.ceil(timerLeft/60);
   saveData('zendo_reward_time', rewardTime);
   renderRewardTime();
+  if (alarm) triggerTimerAlarm();
+}
+function triggerTimerAlarm() {
+  const timerDisplay = document.getElementById('timer');
+  timerDisplay.classList.add('timer-alarm');
+  setTimeout(() => timerDisplay.classList.remove('timer-alarm'), 2000);
 }
 document.getElementById('start-timer-btn').onclick = startTimer;
 document.getElementById('stop-timer-btn').onclick = stopTimer;
