@@ -1,6 +1,6 @@
 // ZenDo Main Script
 // ==================
-// Handles navigation, task management, roulette, rewards, profile, and stats.
+// Handles navigation, sex position management, roulette, rewards, profile, and stats.
 
 // --- Navigation ---
 const navLinks = document.querySelectorAll('.nav-link');
@@ -24,7 +24,7 @@ function loadData(key, fallback) {
   return val ? JSON.parse(val) : fallback;
 }
 
-// --- Task Management ---
+// --- Sex Position Management ---
 let tasks = loadData('zendo_tasks', []);
 let completedTasks = loadData('zendo_completed', []);
 let rewardTime = loadData('zendo_reward_time', 0); // in minutes
@@ -34,14 +34,14 @@ function renderTasks() {
   const list = document.getElementById('tasks-list');
   list.innerHTML = '';
   if (tasks.length === 0) {
-    list.innerHTML = '<p>No outstanding tasks! 🎉</p>';
+    list.innerHTML = '<p>No outstanding sex positions! 🎉</p>';
     return;
   }
   tasks.forEach((task, idx) => {
     const div = document.createElement('div');
     div.className = 'task-item';
     div.innerHTML = `
-      <b>${task.name}</b> ${task.project ? ' <span style="color:#2176ff">[' + task.project + ']</span>' : ''}<br>
+      <b>${task.name}</b> ${task.project ? ' <span style="color:#3352F9">[' + task.project + ']</span>' : ''}<br>
       <span>⏳ ${task.duration} min</span> | <span>💡 ${task.difficulty}</span>
     `;
     list.appendChild(div);
@@ -125,7 +125,7 @@ function renderRoulette() {
     text.setAttribute('dominant-baseline', 'middle');
     text.textContent = ['📝','💡','🔥','🎯','⭐','🎵','🧩','🧠','🧹','📚','🛠️','🎨','🧘','🚀','🍀','🌟','🎉','🏆','💪','✨'][i % 20];
     svg.appendChild(text);
-    // Add task name (centered, blue, below emoji)
+    // Add sex position name (centered, blue, below emoji)
     const nameText = document.createElementNS(svgNS, 'text');
     nameText.setAttribute('x', lx);
     nameText.setAttribute('y', ly + 22);
@@ -217,7 +217,7 @@ function confettiRain() {
     const conf = document.createElement('div');
     conf.className = 'confetti';
     conf.style.left = Math.random()*100 + 'vw';
-    conf.style.background = ['#2176ff','#ff5fa2','#ffe3f6','#f0f4ff'][i%4];
+    conf.style.background = ['#3352F9','#F0C5E1','#ffe3f6','#f0f4ff'][i%4];
     conf.style.animationDelay = (Math.random()*0.7)+'s';
     container.appendChild(conf);
     setTimeout(() => conf.remove(), 1400);
@@ -267,11 +267,11 @@ function showTextBurst(text) {
   div.style.top = '40%';
   div.style.transform = 'translate(-50%, -50%) scale(1)';
   div.style.fontSize = '2.2em';
-  div.style.color = '#ff5fa2';
+  div.style.color = '#F0C5E1';
   div.style.background = '#fff';
   div.style.padding = '0.5em 1.2em';
   div.style.borderRadius = '18px';
-  div.style.boxShadow = '0 2px 12px rgba(33,118,255,0.13)';
+  div.style.boxShadow = '0 2px 12px rgba(51,82,249,0.13)';
   div.style.zIndex = 300;
   div.style.opacity = 1;
   div.style.animation = 'popText 1.2s linear forwards';
@@ -280,7 +280,7 @@ function showTextBurst(text) {
 }
 // Add keyframes for fadePop and popText in CSS if needed
 
-// --- Task Completion ---
+// --- Sex Position Completion ---
 let completedCount = 0;
 function completeTask(task) {
   // Remove from outstanding
@@ -312,7 +312,7 @@ const cheekyTexts = [
   'Good job! 😎',
   'Well done, ZenMaster! 🧘‍♂️',
   'You crushed it! 💪',
-  'Task obliterated! 🚀',
+  'Sex position obliterated! 🚀',
   'You rock! 🤘',
   'Another one bites the dust! 🎶',
   'You did it! 🎉',
@@ -320,23 +320,23 @@ const cheekyTexts = [
   'That was easy! 😏',
   'You make it look easy! 😁',
   'Legendary! 🏆',
-  'You’re unstoppable! 🦸',
+  'You\'re unstoppable! 🦸',
   'Keep it up! ✨',
-  'You’re a productivity ninja! 🥷',
+  'You\'re a productivity ninja! 🥷',
   'Boom! 💥',
   'Mission accomplished! 🎯',
-  'You’re a star! ⭐',
+  'You\'re a star! ⭐',
   'Victory! 🏅',
-  'You’re on a roll! 🥳',
-  'Task? What task? 😏'
+  'You\'re on a roll! 🥳',
+  'Sex position? What sex position? 😏'
 ];
 function randomCheekyText(isConfetti) {
   if (isConfetti) {
     const confettiTexts = [
       'Confetti time! 🎊',
       'Milestone! 🎉',
-      '5 tasks done! 🖐️',
-      'You’re on fire! 🔥🔥',
+      '5 sex positions done! 🖐️',
+      'You\'re on fire! 🔥🔥',
       'Productivity legend! 🏆'
     ];
     return confettiTexts[Math.floor(Math.random() * confettiTexts.length)];
@@ -421,9 +421,9 @@ document.getElementById('stop-timer-btn').onclick = stopTimer;
 function renderProfilePic() {
   const container = document.getElementById('profile-pic');
   const svgs = [
-    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#ff5fa2"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#ff5fa2"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#ff5fa2"/><path d="M32 36 Q35 39 38 36" stroke="#ff5fa2" stroke-width="2" fill="none"/></svg>',
-    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#2176ff"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#2176ff"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#2176ff"/><path d="M32 36 Q35 34 38 36" stroke="#2176ff" stroke-width="2" fill="none"/></svg>',
-    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#ffe3f6"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#ff5fa2"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#2176ff"/><path d="M32 36 Q35 38 38 36" stroke="#ff5fa2" stroke-width="2" fill="none"/></svg>'
+    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#F0C5E1"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#F0C5E1"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#F0C5E1"/><path d="M32 36 Q35 39 38 36" stroke="#F0C5E1" stroke-width="2" fill="none"/></svg>',
+    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#3352F9"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#3352F9"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#3352F9"/><path d="M32 36 Q35 34 38 36" stroke="#3352F9" stroke-width="2" fill="none"/></svg>',
+    '<svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#ffe3f6"/><ellipse cx="35" cy="38" rx="18" ry="14" fill="#fff"/><circle cx="35" cy="30" r="10" fill="#fff"/><ellipse cx="30" cy="30" rx="2" ry="3" fill="#F0C5E1"/><ellipse cx="40" cy="30" rx="2" ry="3" fill="#3352F9"/><path d="M32 36 Q35 38 38 36" stroke="#F0C5E1" stroke-width="2" fill="none"/></svg>'
   ];
   container.innerHTML = svgs[Math.floor(Math.random()*svgs.length)];
 }
@@ -431,7 +431,7 @@ renderProfilePic();
 
 // --- Statistics & Fun Charts ---
 function renderStats() {
-  // Total tasks done
+  // Total sex positions done
   document.querySelector('#stats-tasks-done span').textContent = completedTasks.length;
   // Total time spent
   const totalTime = completedTasks.reduce((sum, t) => sum + (t.duration || 0), 0);
@@ -446,8 +446,8 @@ function renderStats() {
   // Pie chart (CSS conic-gradient)
   const pie = document.getElementById('stats-difficulty-breakdown');
   pie.style.background = `conic-gradient(
-    #2176ff 0% ${perc[0]}%,
-    #ff5fa2 ${perc[0]}% ${perc[0]+perc[1]}%,
+    #3352F9 0% ${perc[0]}%,
+    #F0C5E1 ${perc[0]}% ${perc[0]+perc[1]}%,
     #ffe3f6 ${perc[0]+perc[1]}% ${perc[0]+perc[1]+perc[2]}%,
     #f0f4ff ${perc[0]+perc[1]+perc[2]}% 100%
   )`;

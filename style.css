@@ -30,11 +30,11 @@ body::before, body::after {
   position: fixed;
   top: 0; left: 0; right: 0;
   background: #fff;
-  box-shadow: 0 6px 24px rgba(51, 82, 249, 0.10);
+  box-shadow: 0 4px 16px rgba(51, 82, 249, 0.08);
   z-index: 20;
-  padding: 1.2em 0 1.2em 0;
-  border-radius: 0 0 32px 32px;
-  min-height: 80px;
+  padding: 0.6em 0;
+  border-radius: 0 0 20px 20px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +42,7 @@ body::before, body::after {
 .navbar ul {
   display: flex;
   justify-content: center;
-  gap: 3em;
+  gap: 2.5em;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -51,27 +51,27 @@ body::before, body::after {
 .navbar .nav-link {
   color: #3352F9;
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.1em;
   text-decoration: none;
   transition: color 0.2s, transform 0.2s, background 0.2s;
-  padding: 0.8em 2em;
-  border-radius: 18px;
-  letter-spacing: 0.04em;
+  padding: 0.5em 1.2em;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
   background: transparent;
   display: flex;
   align-items: center;
-  gap: 0.6em;
-  box-shadow: 0 2px 8px rgba(51, 82, 249, 0.07);
+  gap: 0.4em;
+  box-shadow: 0 1px 4px rgba(51, 82, 249, 0.05);
 }
 .navbar .nav-link:hover {
   color: #fff;
   background: #3352F9;
-  transform: scale(1.10) rotate(-2deg);
-  box-shadow: 0 4px 16px rgba(51, 82, 249, 0.13);
+  transform: scale(1.08) rotate(-1deg);
+  box-shadow: 0 2px 8px rgba(51, 82, 249, 0.12);
 }
 
 main {
-  margin-top: 4.5em;
+  margin-top: 3.5em;
   padding: 2em 1em 2em 1em;
   max-width: 700px;
   margin-left: auto;
